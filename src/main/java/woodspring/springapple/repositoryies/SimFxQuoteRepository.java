@@ -58,7 +58,19 @@ public class SimFxQuoteRepository {
 		return fxSpotList.stream().sorted(orderByKey).collect(Collectors.toList());
 	}
 	
-	
+	public List<FXSpot> findQuote(String symbol) {
+		List<FXSpot> retList = fxSpotList.stream()
+									.filter( item -> item.getSymbol().equalsIgnoreCase( symbol))
+									.collect(Collectors.toList());
+		return retList;
+	}
+	public List<FXSpot> findQuoteWithTenor(String symbol, String tenor) {
+		List<FXSpot> retList = fxSpotList.stream()
+								.filter( item -> item.getSymbol().equalsIgnoreCase( symbol))
+								.filter( item -> item.getTenor().equalsIgnoreCase( tenor))
+								.collect(Collectors.toList());
+		return retList;
+	}
 
 
 }

@@ -1,23 +1,40 @@
 package woodspring.springapple.entities;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
-public class FXSpot {
-	
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+public class FXSpot implements Serializable{
+	private static final Logger logger = LoggerFactory.getLogger(FXSpot.class);
 	static final DecimalFormat f = new DecimalFormat("##.00000000");
 	private String symbol;
 	private String tenor;
 	private String pxStr;
 	private long quoteTime;
 	private BigDecimal price;
-	
+
+	public FXSpot() {
+		this.symbol = "";
+		this.tenor = "ON";
+		this.pxStr = "";
+	}
 	
 	public FXSpot( String... args) {
+		if ( args ==  null) {
+			this.symbol = "USDCAD";
+			this.tenor = "ON";
+			this.pxStr = "1.345";
+		} else {
 		this.symbol = args[0];
-		this.tenor = args[1];
-		this.pxStr = args[2];
-		this.price = BigDecimal.valueOf(Long.valueOf( args[2].trim()).longValue());
+		this.tenor = (args.length > 1) ? args[1] : "TOM";
+		this.pxStr = (args.length > 2) ? args[2] : "0";
+		}
+		//logger.info("FXSpot: symbol:{}, tenor:{}, price:{}", this.symbol, this.tenor, this.pxStr);
+		this.price = new BigDecimal(this.pxStr.trim()); // r.valueOf(Long.valueOf( this.pxStr.trim()).longValue());
 	}
 		
 
@@ -38,10 +55,7 @@ public class FXSpot {
 	public String getPriceString() {
 		return pxStr;
 	}
-	@Override
-	public String toString() {
-		return "FXSpot [symbol=" + symbol + ", price=" + price + ", tenor=" + tenor + ", quoteTime=" + quoteTime + "]";
-	}
+	
 	public String getTenor() {
 		return tenor;
 	}
@@ -54,5 +68,8 @@ public class FXSpot {
 	public void setQuoteTime(long quoteTime) {
 		this.quoteTime = quoteTime;
 	}
-
+	@Override
+	public String toString() {
+		return "FXSpot [symbol=" + symbol + ", price=" + price + ", tenor=" + tenor + ", quoteTime=" + quoteTime + "]";
+	}
 }

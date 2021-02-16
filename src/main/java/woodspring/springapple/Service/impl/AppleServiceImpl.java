@@ -44,4 +44,11 @@ public class AppleServiceImpl implements AppleService {
 		return fxSpot;
 	}
 
+	public List<FXSpot> quote(String symbol) {
+		return fxQuoteRepo.findQuote(symbol);	
+	}
+	public List<FXSpot> quoteWithTenor(String
+			symbol, String tenor) {
+		return fxQuoteRepo.getQuoteBySymbolTenor(symbol,  tenor);	
+	}
 }

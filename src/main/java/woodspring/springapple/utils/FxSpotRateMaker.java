@@ -40,7 +40,7 @@ public class FxSpotRateMaker {
 		tenorStrList.add("ON");tenorStrList.add("TN"); tenorStrList.add("SN");tenorStrList.add("TOM");
 		tenorStrList.add("1W");tenorStrList.add("1M");	tenorStrList.add("2W"); tenorStrList.add("2M");
 		tenorStrList.add("3M");tenorStrList.add("6M");tenorStrList.add("9M");tenorStrList.add("1Y");
-		tenorStrList.add("ON");tenorStrList.add("ON");tenorStrList.add("ON");tenorStrList.add("TN");
+		tenorStrList.add("ON");tenorStrList.add("ON");tenorStrList.add("SN");tenorStrList.add("TN");
 		tenorStrList.add("ON");tenorStrList.add("SN");tenorStrList.add("TOM");tenorStrList.add("1W");
 		tenorStrList.add("ON");tenorStrList.add("ON");tenorStrList.add("ON");tenorStrList.add("ON");
 		tenorStrList.add("ON");tenorStrList.add("ON");tenorStrList.add("ON");tenorStrList.add("ON");
@@ -64,9 +64,10 @@ public class FxSpotRateMaker {
 		int rang = (int)(Math.random()*350);
 		BigDecimal price = priceList.get(ind);
 		BigDecimal value = price.multiply( new BigDecimal(rang* 0.000001));
-		retFx.setPrice(((pluse == 0) ? price.subtract(value) : price.add( value)).setScale(6, BigDecimal.ROUND_DOWN));
-		retFx.setQuoteTime( System.nanoTime());
+		retFx.setPrice(((pluse == 0) ? price.subtract(value) : price.add( value)).setScale(7, BigDecimal.ROUND_DOWN));
+		
 		retFx.setTenor(tenor);
+		retFx.setQuoteTime( System.nanoTime());
 		priceList.remove(ind);
 		priceList.add(ind, retFx.getPrice());
 		priceList.set( ind,  retFx.getPrice());
@@ -86,6 +87,7 @@ public class FxSpotRateMaker {
 			default: aFX = getSymbol();
 			}
 			FXSpot aFXSpot = new FXSpot( aFX.getSymbol(), aFX.getTenor(), aFX.getPriceString());
+			aFXSpot.setQuoteTime( aFX.getQuoteTime());
 			QuoteList.add( aFXSpot );
 		}
 		//igniteDao.putListToCache(listQuote);
